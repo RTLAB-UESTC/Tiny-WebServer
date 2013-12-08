@@ -17,7 +17,7 @@ void TP_Init(int max_thread_num)
 	pool->threads = (pthread_t*)malloc(max_thread_num * sizeof(pthread_t));
 
 	for(i=0; i<max_thread_num; i++){		
-		pthread_create(&(pool->threads[i]), NULL, Thread_Routine, &i);
+		pthread_create(&(pool->threads[i]), NULL, Thread_Routine, i);
 	}
 }
 
@@ -54,7 +54,7 @@ int TP_Add_Woker(void *(*func)(void *), void *arg)
 void *Thread_Routine(void *no)
 {
 	TP_Worker *aworker;
-	int num = *((int*)no);
+	int num = (int)no;
 
 	Signal(SIGPIPE, SIG_IGN);
 

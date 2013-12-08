@@ -11,20 +11,26 @@ extern Thread_Pool *pool;
 
 int main(int argc, char **argv)
 {
-    int listenfd, connfd, port;
+    int listenfd, connfd, port, num_threads;
     socklen_t clientlen;
     struct sockaddr_in clientaddr;
 
     /* Check command line args */
-    if (argc != 2) {
-		fprintf(stderr, "usage: %s <port>\n", argv[0]);
+    if (argc != 3) {
+		fprintf(stderr, "usage: %s <port> <num_threads>\n", argv[0]);
 		exit(1);
     }
-    port = atoi(argv[1]);
 
+    port = atoi(argv[1]);
+	num_threads = atoi(argv[2]);
     listenfd = Open_listenfd(port);
 
-	TP_Init(10);
+	if(listenfd == -1){
+		perror("Open_listenfd");
+		exit(-1);
+	}
+
+	TP_Init(num_threads);
 
     while (1) {
 		clientlen = sizeof(clientaddr);

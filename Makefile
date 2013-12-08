@@ -1,7 +1,8 @@
 
 TARGET	= webserver
 OBJECTS	= main.o threadpool.o mylib.o serverlib.o
-CC		= gcc -g
+#CC		= gcc -g
+CC 		= clang -O2
 LIBS	= -lpthread
 
 $(TARGET) : $(OBJECTS)
